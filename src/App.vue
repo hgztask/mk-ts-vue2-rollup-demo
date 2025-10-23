@@ -1,11 +1,12 @@
 <script lang="ts">
 import {eventEmitter} from "./model/EventEmitter";
+import PanelSettingsView from "./views/PanelSettingsView.vue";
 
 /**
  * Drawer 的内容是懒渲染的，即在第一次被打开之前，传入的默认 slot 不会被渲染到 DOM 上。
  */
 export default {
-  components: {},
+  components: {PanelSettingsView},
   data() {
     return {
       drawer: false,
@@ -18,7 +19,7 @@ export default {
       this.drawer = !this.drawer;
     })
     document.addEventListener('keydown', (event) => {
-      eventEmitter.send('event-keydownEvent', event);
+      eventEmitter.emit('event-keydownEvent', event);
       if (event.key === '`') {
         this.drawer = !this.drawer;
       }
@@ -47,13 +48,15 @@ export default {
 
 <template>
   <div>
-    <el-drawer :modal="false"
+    <el-drawer :modal="false" title="主面板"
                :visible.sync="drawer"
-               :with-header="false"
                direction="rtl"
                size="40%"
                style="position: fixed">
-      <el-tabs type="border-card">
+      <el-tabs tab-position="left" type="border-card">
+        <el-tab-pane label="面板设置" lazy>
+          <PanelSettingsView/>
+        </el-tab-pane>
         <el-tab-pane label="默认面板">
           <el-button type="success">测试</el-button>
         </el-tab-pane>

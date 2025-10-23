@@ -25,6 +25,17 @@ const __privateValidationElFun = (config: any, selector: string) => {
     return isDOMElement(result) ? result : null;
 }
 
+type findElementType = {
+    selector: string,
+    config: any,
+    validationElFun: (config: any, selector: string) => any
+    interval: number,
+    timeout: number,
+    parseShadowRoot: boolean,
+    cacheInProgress: boolean
+}
+
+
 /**
  * 持续查找单个元素，每次查找之间有指定的间隔时间，直到找到为止
  * 查找时存在则直接返回，
@@ -39,7 +50,7 @@ const __privateValidationElFun = (config: any, selector: string) => {
  * @param {function(config: {}): Element|ShadowRoot,selector:string} [config.validationElFun] - 找到的元素的验证函数，返回元素/ShadowRoot，或者 null
  * @returns {Promise<Element|ShadowRoot|null>} - 返回找到的元素/ShadowRoot，超时返回 null
  */
-const findElement = async (selector: string, config: any = {}) => {
+const findElement = async (selector: string, config: findElementType = {}): Promise<Element | ShadowRoot | null> => {
     const defConfig = {
         doc: document,
         interval: 1000,
