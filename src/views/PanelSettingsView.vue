@@ -1,11 +1,11 @@
-<script>
+<script lang="ts">
 import {eventEmitter} from "../model/EventEmitter";
-import {getDrawerShortcutKeyGm} from "../data/localMKData";
+import localMKData from "../data/localMKData";
 //面板设置
 export default {
   data() {
     return {
-      drawerShortcutKeyVal: getDrawerShortcutKeyGm(),
+      drawerShortcutKeyVal: localMKData.getDrawerShortcutKeyGm(),
       theKeyPressedKeyVal: ''
     }
   },
@@ -18,7 +18,7 @@ export default {
         return;
       }
       GM_setValue('drawer_shortcut_key_gm', theKeyPressedKey);
-      this.$notify({message: '已设置打开关闭主面板快捷键', type: 'success'});
+      this.$notify({title: 'tip', message: '已设置打开关闭主面板快捷键', type: 'success'});
       this.drawerShortcutKeyVal = theKeyPressedKey;
     }
   },

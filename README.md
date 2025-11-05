@@ -6,19 +6,30 @@
 
 local_build.js为默认配置打包名，可自定义
 
+## 安装依赖
+
+在项目文件夹下，执行
+
+```bash
+npm install
+```
+
+或者使用yarn安装依赖
+
+```bash
+yarn install
+```
+
 ## 项目运行
 
 ```bash
-# 安装依赖
-npm install
-
-# 或者使用yarn安装依赖
-yarn
-# 开发模式
 npm run dev
+```
 
-# 生产模式
-npm run build
+或者使用yarn运行项目
+
+```bash
+  yarn run dev
 ```
 
 ## 项目打包
@@ -41,7 +52,7 @@ npm run build
 
 ```javascript
 // ==UserScript==
-// @name      mk-vue2-rollup-demo
+// @name      mk-ts-vue2-rollup-demo
 // @namespace http://tampermonkey.net/
 // @license   Apache-2.0
 // @version   1.0
@@ -53,7 +64,6 @@ npm run build
 // @grant     GM_getValue
 // @grant     GM_deleteValue
 // @grant     GM_addStyle
-// @grant     GM_unregisterMenuCommand
 // @grant     GM_registerMenuCommand
 // @match     *://localhost/*
 // @require   https://unpkg.com/vue@2.7.16/dist/vue.min.js

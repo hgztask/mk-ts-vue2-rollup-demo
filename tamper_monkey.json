@@ -1,5 +1,5 @@
 {
-  "@name": "mk-vue2-rollup-demo",
+  "@name": "mk-ts-vue2-rollup-demo",
   "alias": "油猴vue2-rollup演示",
   "@namespace": "http://tampermonkey.net/",
   "@license": "Apache-2.0",
@@ -14,7 +14,6 @@
     "GM_getValue",
     "GM_deleteValue",
     "GM_addStyle",
-    "GM_unregisterMenuCommand",
     "GM_registerMenuCommand"
   ],
   "@exclude": [

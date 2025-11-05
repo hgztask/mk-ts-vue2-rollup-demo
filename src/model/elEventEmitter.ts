@@ -54,4 +54,4 @@ class ElEventEmitter {
  * 元素事件管理器
  * @type {ElEventEmitter} 实例对象
  */
-export const elEventEmitter = new ElEventEmitter()
+export const elEventEmitter: ElEventEmitter = new ElEventEmitter()

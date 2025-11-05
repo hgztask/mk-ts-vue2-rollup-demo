@@ -5,8 +5,6 @@ import serve from 'rollup-plugin-serve'
 import replace from '@rollup/plugin-replace'
 import test_plugin from './plugin/rollup-test-plugin.js'
 import typescript from "@rollup/plugin-typescript";
-import commonjs from "@rollup/plugin-commonjs";
-import nodeResolve from "@rollup/plugin-node-resolve";
 
 // 开发环境为 true，生产环境为 false，默认为开发环境
 const __DEV__ = (process.env.ROLLUP_ENV || 'development') === 'development';
@@ -21,9 +19,23 @@ export default {
             __DEV__: JSON.stringify(__DEV__),
             preventAssignment: true,
         }),
+        vue({
+            css: false,
+            compileTemplate: true, // 编译模板
+            template: {
+                isProduction: true
+            }
+        }),
+        typescript({
+            tsconfig: './tsconfig.json',
+            declaration: false,
+            outputToFilesystem: true // 显式设置，消除警告
+        }),
         esbuild({
+            include: /src\/.*\.(ts|js)$/, // 仅处理src目录下的ts/js文件
             // 核心配置
             target: 'es2020',
+            loaders: {'.ts': 'ts', '.js': 'js'},
             charset: 'utf8', // 明确使用 UTF-8 编码
             // 生产环境优化
             minify: false,
@@ -33,19 +45,6 @@ export default {
         importContent({
             fileName: ['.css']
         }),
-        nodeResolve({
-            extensions: ['.js', '.ts', '.json', '.vue'] // 确保能解析 .vue 文件
-        }),
-        vue({
-            css: false,
-            compileTemplate: true, // 编译模板
-            template: {
-                isProduction: true
-            }
-        }),
-        commonjs({
-            extensions: ['.js', '.ts', '.vue'] // 确保能处理 .vue 文件
-        }),
         test_plugin({
             isDev: __DEV__,
             clearComments: !__DEV__
@@ -54,18 +53,7 @@ export default {
             open: false,
             port: 3000,
             contentBase: 'dist',
-        }) : {}
-        /*        terser({
-                    compress: {
-                        drop_console: false, // 不删除 console.log 语句
-                        drop_debugger: false // 不删除 debugger 语句
-                    }
-                })*/,
-        typescript({
-            tsconfig: './tsconfig.json',
-            declaration: false,
-            // declarationDir: 'dist/types'
-        })
+        }) : null
     ],
     output: {
         file: 'dist/local_build.js',
