@@ -7,3 +7,4 @@
 /.rollup.cache/
 yarn.lock
 .tsbuildinfo
+pnpm-lock.yaml

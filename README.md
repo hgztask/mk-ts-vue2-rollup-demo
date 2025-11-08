@@ -8,33 +8,39 @@ local_build.js为默认配置打包名，可自定义
 
 ## 安装依赖
 
-在项目文件夹下，执行
+在项目文件夹下，打开终端根据实际情况选择对应的包输入命令
 
 ```bash
 npm install
 ```
 
-或者使用yarn安装依赖
-
 ```bash
 yarn install
 ```
 
+```bash
+pnpm install
+```
+
 ## 项目运行
+
+根据实际情况选择对应的包命令运行
 
 ```bash
 npm run dev
 ```
 
-或者使用yarn运行项目
-
 ```bash
   yarn run dev
 ```
 
+```bash
+  pnpm run dev
+```
+
 ## 项目打包
 
-- 打包
+根据实际情况选择对应的包命令运行打包
 
 ```bash
   yarn run build
@@ -42,6 +48,10 @@ npm run dev
 
 ```bash
   npm run build
+```
+
+```bash
+  pnpm run build
 ```
 
 ## 本地项目部署
