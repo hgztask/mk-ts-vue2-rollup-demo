@@ -35,7 +35,7 @@ type findElementType = {
 }
 
 /**
- * @version 0.2.0
+ * @version 0.3.0
  */
 export default {
     /**
@@ -150,24 +150,36 @@ export default {
     /**
      * 安装样式
      * @param cssText {string} - CSS 样式字符串
-     * @param selector {string} - 选择器字符串，用以定位更新的样式元素
+     * @param selectorOptions {{type:'class'|'id'|any,value:string}}
      */
-    installStyle(cssText: string, selector: string | undefined = undefined) {
-        let styleEl;
-        if (selector) {
-            styleEl = document.head.querySelector(selector);
-            if (styleEl === null) {
-                styleEl = document.createElement('style');
-                if (selector.startsWith('#')) {
-                    styleEl.id = selector.substring(1);
-                } else {
-                    styleEl.className = selector.substring(1);
-                }
-                document.head.appendChild(styleEl)
-            }
-        } else {
+    installStyle(cssText: string, selectorOptions: { type: 'class' | 'id' | any, value: string } | any) {
+        const {type = 'class', value = '', doc = document.head} = selectorOptions ? selectorOptions : {};
+        let selector = '';
+        switch (type) {
+            case "class":
+                selector = `.${value}`;
+                break;
+            case 'id':
+                selector = `#${value}`;
+                break;
+            default:
+                selector = `[${type}="${value}"]`;
+        }
+        let styleEl = doc.querySelector(selector);
+        if (styleEl === null) {
             styleEl = document.createElement('style');
-            document.head.appendChild(styleEl)
+            switch (type) {
+                case "class":
+                    styleEl.className = value;
+                    break;
+                case 'id':
+                    styleEl.id = value;
+                    break
+                default:
+                    styleEl.setAttribute(type, value);
+                    break;
+            }
+            doc.appendChild(styleEl)
         }
         styleEl.textContent = cssText;
     },
