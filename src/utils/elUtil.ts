@@ -202,18 +202,18 @@ export default {
         return {panelDiv, vueDiv}
     },
     //xpath定位元素，返回匹配第一个元素，按文档顺序
-    byXpathEl(xpatch: string, doc: any = document): Node | null | HTMLElement {
-        return document.evaluate(xpatch, doc, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    byXpathEl(xpath: string, doc: any = document): Node | null | HTMLElement {
+        return document.evaluate(xpath, doc, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     },
     //异步xpath定位元素，返回匹配第一个元素，按文档顺序
-    async byXpathElAsync(xpatch: string, doc: any = document, timeout: number = 1000): Promise<Node | null | HTMLElement> {
+    async byXpathElAsync(xpath: string, doc: any = document, timeout: number = 1000): Promise<Node | null | HTMLElement> {
         return new Promise((resolve) => {
-            let xpathEl = this.byXpathEl(xpatch, doc);
+            let xpathEl = this.byXpathEl(xpath, doc);
             if (xpathEl !== null) {
                 return resolve(xpathEl);
             }
             const interval = setInterval(() => {
-                xpathEl = this.byXpathEl(xpatch, doc);
+                xpathEl = this.byXpathEl(xpath, doc);
                 if (xpathEl === null) return
                 resolve(xpathEl);
                 clearInterval(interval)
@@ -221,8 +221,8 @@ export default {
         })
     },
     //xpath定位元素，返回元素列表
-    byXpathEls(xpatch: string, doc: any = document) {
-        const xPathResult = document.evaluate(xpatch, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+    byXpathEls(xpath: string, doc: any = document) {
+        const xPathResult = document.evaluate(xpath, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
         const elList = []
         for (let i = 0; i < xPathResult.snapshotLength; i++) {
             const items = xPathResult.snapshotItem(i);
@@ -232,15 +232,15 @@ export default {
         return elList
     },
     //xpath定位元素，返回数字
-    byXpathNumber(xpatch: string, doc: any = document) {
-        return document.evaluate(xpatch, doc, null, XPathResult.NUMBER_TYPE, null).numberValue;
+    byXpathNumber(xpath: string, doc: any = document) {
+        return document.evaluate(xpath, doc, null, XPathResult.NUMBER_TYPE, null).numberValue;
     },
     //xpath定位元素，返回字符串
-    byXpathString(xpatch: string, doc: any = document) {
-        return document.evaluate(xpatch, doc, null, XPathResult.STRING_TYPE, null).stringValue;
+    byXpathString(xpath: string, doc: any = document) {
+        return document.evaluate(xpath, doc, null, XPathResult.STRING_TYPE, null).stringValue;
     },
     //xpath定位元素，返回布尔值，是否存在
-    byXpathBoolean(xpatch: string, doc: any = document) {
-        return document.evaluate(xpatch, doc, null, XPathResult.BOOLEAN_TYPE, null).booleanValue;
+    byXpathBoolean(xpath: string, doc: any = document) {
+        return document.evaluate(xpath, doc, null, XPathResult.BOOLEAN_TYPE, null).booleanValue;
     }
 }
