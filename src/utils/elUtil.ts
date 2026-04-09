@@ -152,15 +152,21 @@ export default {
      * @param cssText {string} - CSS 样式字符串
      * @param selector {string} - 选择器字符串，用以定位更新的样式元素
      */
-    installStyle(cssText: string, selector: string = ".mk-def-style") {
-        let styleEl = document.head.querySelector(selector);
-        if (styleEl === null) {
-            styleEl = document.createElement('style');
-            if (selector.startsWith('#')) {
-                styleEl.id = selector.substring(1);
-            } else {
-                styleEl.className = selector.substring(1);
+    installStyle(cssText: string, selector: string | undefined = undefined) {
+        let styleEl;
+        if (selector) {
+            styleEl = document.head.querySelector(selector);
+            if (styleEl === null) {
+                styleEl = document.createElement('style');
+                if (selector.startsWith('#')) {
+                    styleEl.id = selector.substring(1);
+                } else {
+                    styleEl.className = selector.substring(1);
+                }
+                document.head.appendChild(styleEl)
             }
+        } else {
+            styleEl = document.createElement('style');
             document.head.appendChild(styleEl)
         }
         styleEl.textContent = cssText;
@@ -182,5 +188,47 @@ export default {
             el.appendChild(panelDiv);
         }
         return {panelDiv, vueDiv}
+    },
+    //xpath定位元素，返回匹配第一个元素，按文档顺序
+    byXpathEl(xpatch: string, doc: any = document): Node | null | HTMLElement {
+        return document.evaluate(xpatch, doc, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    },
+    //异步xpath定位元素，返回匹配第一个元素，按文档顺序
+    async byXpathElAsync(xpatch: string, doc: any = document, timeout: number = 1000): Promise<Node | null | HTMLElement> {
+        return new Promise((resolve) => {
+            let xpathEl = this.byXpathEl(xpatch, doc);
+            if (xpathEl !== null) {
+                return resolve(xpathEl);
+            }
+            const interval = setInterval(() => {
+                xpathEl = this.byXpathEl(xpatch, doc);
+                if (xpathEl === null) return
+                resolve(xpathEl);
+                clearInterval(interval)
+            }, timeout);
+        })
+    },
+    //xpath定位元素，返回元素列表
+    byXpathEls(xpatch: string, doc: any = document) {
+        const xPathResult = document.evaluate(xpatch, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+        const elList = []
+        for (let i = 0; i < xPathResult.snapshotLength; i++) {
+            const items = xPathResult.snapshotItem(i);
+            if (items === null) continue;
+            elList.push(items)
+        }
+        return elList
+    },
+    //xpath定位元素，返回数字
+    byXpathNumber(xpatch: string, doc: any = document) {
+        return document.evaluate(xpatch, doc, null, XPathResult.NUMBER_TYPE, null).numberValue;
+    },
+    //xpath定位元素，返回字符串
+    byXpathString(xpatch: string, doc: any = document) {
+        return document.evaluate(xpatch, doc, null, XPathResult.STRING_TYPE, null).stringValue;
+    },
+    //xpath定位元素，返回布尔值，是否存在
+    byXpathBoolean(xpatch: string, doc: any = document) {
+        return document.evaluate(xpatch, doc, null, XPathResult.BOOLEAN_TYPE, null).booleanValue;
     }
 }
