@@ -1,6 +1,4 @@
 {
-  "name": "mk-ts-vue2-rollup-demo",
-  "version": "1.0.0",
   "description": "",
   "type": "module",
   "scripts": {

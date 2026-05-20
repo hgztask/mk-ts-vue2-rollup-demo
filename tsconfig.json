@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "incremental": true,
-    "tsBuildInfoFile": "./.tsbuildinfo",
     "target": "ESNext",
     "module": "ESNext",
     "outDir": "./dist",

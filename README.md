@@ -78,7 +78,7 @@ npm run dev
 // @match     *://localhost/*
 // @require   https://unpkg.com/vue@2.7.16/dist/vue.min.js
 // @require   https://unpkg.com/element-ui@2.15.14/lib/index.js
-// @require     file://E:\js\dist\local_build.js
+// @require   file://E:\js\dist\local_build.js
 // ==/UserScript==
 
 /**
